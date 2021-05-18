@@ -30,7 +30,10 @@ python crack_by_sele.py
 欢迎大家提交issues和改良的见解，本人尽量在第一时间回复
 ### 优点
 * ip不会被封
+* 个人测试效果整体不错
 ### 缺点
-* 误报率比较高，yes.dic中的密码需要手动试错
+* 误报率比较高，yes.dic中的密码需要手动试错，也可以设置为密码字典重新使用selenium测试
 * 速度比较慢，15-40个/min
 * 占用系统资源比较高
+### 感谢项目
+[FuckBaiduPanPwd](https://github.com/MXWXZ/FuckBaiduPanPwd)
